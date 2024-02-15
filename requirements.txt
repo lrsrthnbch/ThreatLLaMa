@@ -1,0 +1,8 @@
+streamlit
+requests
+beautifulsoup4
+selenium
+webdriver-manager
+langchain
+langchain-community
+openai
