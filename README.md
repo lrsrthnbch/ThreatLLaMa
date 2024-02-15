@@ -4,7 +4,7 @@
 This project automates the process of creating an LLM embedding with content scraped from a website. The scraped content is tokenized and saved in a vector database and can then be queried on using a local LLM. Streamlit serves as the frontend.
 
 ## Prerequisites
-The program uses the OpenAI API. This requieres either an API Key or a local installation of a Llama Server like ollama or LMStudio
+The program uses the OpenAI API. This requires either an API Key or a local installation of a Llama Server like ollama or LMStudio
 
 ## Setup
 Follow these steps to set up and run the project:
