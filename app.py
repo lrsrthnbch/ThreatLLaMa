@@ -2,6 +2,8 @@ import streamlit as st
 from scripts.scraper import discover_links, setup_selenium_driver, scrape_urls
 from scripts.embedding import generate_data_store
 from scripts.inference import generate_response, init_db
+from scripts.graphs import display_word_count_graph
+
 
 if 'responses' not in st.session_state:
     st.session_state['responses'] = []
@@ -17,7 +19,7 @@ with st.sidebar:
             st.success(f"Discovered {len(discovered_urls)} URLs.")
 
     if 'discovered_urls' in st.session_state and st.session_state['discovered_urls']:
-        selected_urls = {url: st.checkbox(url, key=f'checkbox_{url}') for url in st.session_state['discovered_urls']}
+        selected_urls = {url: st.checkbox(url, key=f'checkbox_{url}', value=True) for url in st.session_state['discovered_urls']}
         selected_to_scrape = [url for url, selected in selected_urls.items() if selected]
 
         if st.button('Scrape selected URLs', key='scrape_selected_urls_button'):
@@ -27,6 +29,9 @@ with st.sidebar:
                 driver.quit()
                 st.success('Done. Saved to /content')
                 st.session_state['embeddings_ready'] = True
+
+    if 'embeddings_ready' in st.session_state and st.session_state['embeddings_ready']:
+        display_word_count_graph('./content')
 
     if 'embeddings_ready' in st.session_state and st.session_state['embeddings_ready']:
         model_name = st.selectbox('Select the embedding model', ['hkunlp/instructor-base', 'hkunlp/instructor-large', 'hkunlp/instructor-xl'], key='model_name_selectbox')

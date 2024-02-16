@@ -14,7 +14,8 @@ def init_db(model_name):
     db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
     return db
 
-client = OpenAI(base_url="http://localhost:1234/v1", api_key="not-needed")
+# client = OpenAI(base_url="http://localhost:1234/v1", api_key="not-needed")
+client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
 
 def generate_response(query, db, use_embedding=False):
     if use_embedding:
@@ -25,7 +26,7 @@ def generate_response(query, db, use_embedding=False):
         prompt = query
 
     response = client.chat.completions.create(
-        model="local-model",
+        model="mistral",
         messages=[{"role": "user", "content": str(prompt)}],
         temperature=0.7,
     )

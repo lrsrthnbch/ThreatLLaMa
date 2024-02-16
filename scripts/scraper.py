@@ -15,16 +15,22 @@ def setup_selenium_driver():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     return driver
 
+def normalize_url(url):
+    # Remove trailing slash for non-root URLs
+    if url.endswith('/') and url.count('/') > 3:
+        return url[:-1]
+    return url
+
 def discover_links(base_url):
     discovered_urls = set()
-    urls_to_visit = {base_url}
+    urls_to_visit = {normalize_url(base_url)}
     domain_name = urlparse(base_url).netloc
     excluded_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.php'}
 
     while urls_to_visit:
         current_url = urls_to_visit.pop()
         parsed_url = urlparse(current_url)
-        current_url = urlunparse(parsed_url._replace(fragment=""))
+        current_url = normalize_url(urlunparse(parsed_url._replace(fragment="")))
         if current_url in discovered_urls:
             continue
 
@@ -36,7 +42,7 @@ def discover_links(base_url):
             for link in soup.find_all('a', href=True):
                 absolute_link = urljoin(current_url, link['href'])
                 parsed_absolute_link = urlparse(absolute_link)
-                cleaned_link = urlunparse(parsed_absolute_link._replace(fragment=""))
+                cleaned_link = normalize_url(urlunparse(parsed_absolute_link._replace(fragment="")))
 
                 if not parsed_absolute_link.path.lower().endswith(tuple(excluded_extensions)) and urlparse(cleaned_link).netloc == domain_name:
                     urls_to_visit.add(cleaned_link)
@@ -47,7 +53,7 @@ def discover_links(base_url):
 
 def get_dynamic_content(url, driver):
     driver.get(url)
-    time.sleep(5)
+    time.sleep(1)
     return driver.page_source
 
 def save_content(url, content):
