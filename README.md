@@ -12,7 +12,7 @@ Follow these steps to set up and run the project:
 1. Clone the Repository:
 
 ```
-git clone https://github.com/lrsrthnbch/WebRAG
+git clone https://github.com/lrsrthnbch/ThreatLLaMa
 ```
 2. Install Dependencies:
 

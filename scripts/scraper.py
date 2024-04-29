@@ -16,7 +16,6 @@ def setup_selenium_driver():
     return driver
 
 def normalize_url(url):
-    # Remove trailing slash for non-root URLs
     if url.endswith('/') and url.count('/') > 3:
         return url[:-1]
     return url

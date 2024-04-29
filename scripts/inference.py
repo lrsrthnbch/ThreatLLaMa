@@ -14,8 +14,8 @@ def init_db(model_name):
     db = Chroma(persist_directory=CHROMA_PATH, embedding_function=embedding_function)
     return db
 
-# client = OpenAI(base_url="http://localhost:1234/v1", api_key="not-needed")
-client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+client = OpenAI(base_url="http://localhost:1234/v1", api_key="not-needed")
+# client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
 
 def generate_response(query, db, use_embedding=False):
     if use_embedding:
